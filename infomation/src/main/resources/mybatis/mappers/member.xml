@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.infomation.member.dao.MemberDAO">
+	<resultMap id="memResult" type="memberVO">
+		<result property="id" column="id"/>
+		<result property="pwd" column="pwd"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="joinDate" column="joinDate"/>
+	</resultMap>
+	
+	<select id="selectAllMemberList" resultMap="memResult">
+	SELECT *
+	FROM T_MEMBER
+	ORDER BY JOINDATE DESC
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+	INSERT INTO T_MEMBER(
+		ID,PWD,NAME,EMAIL,joinDate
+		) VALUES (
+			#{id},#{pwd},#{name},#{email},CURRENT_TIMESTAMP()
+		)
+	</insert>
+	
+	<update id="updateMember" parameterType="memberVO">
+		update t_member
+		set pwd=#{pwd}, name=#{name}, email=#{email}
+		where
+		id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from t_member
+		where
+		id=#{id}
+	</delete>
+	
+	<select id="loginById" parameterType="memberVO" resultType="memberVO">
+		select * from t_member
+		where id=#{id} and pwd=#{pwd}
+	</select>
+</mapper>
